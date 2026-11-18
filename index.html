@@ -284,6 +284,7 @@ a.pp-tile:hover{border-color:var(--gold)}
     <div class="jgrid">
       <div class="jbox"><h4>Game schedule</h4><ul class="jsched"><li><b>4:00 PM</b><span>Broadmoor vs. Woodlawn</span></li><li><b>4:45 PM</b><span>Northeast vs. LAB</span></li><li class="us"><b>5:30 PM</b><span>Southside vs. Baker</span></li><li><b>6:15 PM</b><span>Scotlandville vs. Thrive</span></li><li><b>7:00 PM</b><span>Liberty vs. David Thibodaux</span></li><li><b>7:45 PM</b><span>East Ascension vs. Madison Prep</span></li><li><b>8:30 PM</b><span>Catholic vs. McKinley</span></li></ul></div>
       <div class="jbox"><h4>Admission</h4><p class="jprice">$10 <small>per person</small></p>
+        <a class="btn sm" href="https://app.i2tickets.com/8f86271e/event-16773" target="_blank" rel="noopener">Buy Jamboree tickets</a>
         <h4>Format</h4><ul class="jlist"><li>8-minute warm-up</li><li>Two 10-minute halves</li><li>3-minute halftime</li><li>One full timeout per half</li><li>Timeouts do not carry over</li></ul>
         <h4>Hospitality</h4><p class="jtxt">Hospitality room for coaches and officials. Hot dogs and bottled water for all players right after their game.</p></div>
     </div>
@@ -293,8 +294,9 @@ a.pp-tile:hover{border-color:var(--gold)}
 <section id="tickets"><div class="wrap"><div class="dk scard" style="max-width:640px">
   <p class="eyebrow">Game day</p>
   <h3>Game tickets</h3>
-  <p id="tixP">Tickets for home games will be sold online. Check back here before the next home game. For the McKinley Jamboree on Nov 18, admission is $10 per person at McKinley.</p>
-  <div class="btns"><a class="btn off" id="tixBtn" role="link" aria-disabled="true" tabindex="-1">Buy game tickets</a></div>
+  <p id="tixP">Tickets for home games will be sold online. Check back here before the next home game. For the McKinley Jamboree on Nov 18, admission is $10 per person. Buy online or at the door.</p>
+  <div class="btns"><a class="btn" href="https://app.i2tickets.com/8f86271e/event-16773" target="_blank" rel="noopener">Buy McKinley Jamboree tickets</a></div>
+  <div class="btns" style="margin-top:10px"><a class="btn off" id="tixBtn" role="link" aria-disabled="true" tabindex="-1">Buy game tickets</a></div>
   <p id="tixNote" class="tixnote">Ticket link coming soon</p>
 </div></div></section>
 
@@ -453,8 +455,6 @@ var SITE = {
   /* GAME FILM: add one line per game. Format: ["date", "Title", "video link"]
      Example: ["2026-11-30", "Highlights vs. Dutchtown", "https://youtu.be/XXXXXXXX"] */
   film: [
-    ["2026-10-26", "Scrimmage vs. Jehovah Jireh", "https://youtu.be/xGQKiKOrM-Y"],
-    ["2026-10-26", "Scrimmage vs. McKinley", "https://youtu.be/oNYAbxZyUf0"]
   ],
   /* PLAYER LINKS: add a line for any player by jersey number. All three links are optional.
      Example: "3": {hl:"https://youtu.be/XXXX", recruit:"https://...", mp:"https://www.maxpreps.com/..."} */
@@ -675,7 +675,7 @@ function safe(u){return /^https?:\/\//i.test(u)}
 var gf=SITE.film.filter(function(f){return safe(f[2])});
 el("gameFilm").innerHTML=gf.length?gf.map(function(f){
   return '<div class="box"><small>'+(f[0]?fmt(f[0]):'Scrimmage')+'</small><h3>'+esc(f[1])+'</h3><a class="btn" href="'+esc(f[2])+'" target="_blank" rel="noopener">Watch</a></div>';
-}).join(""):'<p class="empty">Game film will be posted here after the first game.</p>';
+}).join(""):'<p class="empty">Game film is on our YouTube channel. Watch the latest videos there.</p>';
 
 el("tierGrid").innerHTML=SITE.sponsors.tiers.map(function(t,i){
   var subj=encodeURIComponent("Sponsorship: "+t.name+" level ("+t.amount+")");
