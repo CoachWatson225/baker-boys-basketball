@@ -655,7 +655,6 @@ function renderPlayerPage(n){
   var rows=function(k,v){return v?'<div><dt>'+k+'</dt><dd>'+esc(v)+'</dd></div>':''};
   var gal=(P.gallery||[]).filter(function(s){return /^data:image\//.test(s)});
   var news=(P.news||[]).filter(function(x){return safe(x[1])});
-  var up=G.filter(function(g,i){return nextIdx>=0&&i>=nextIdx});
   root.innerHTML=
    '<header class="pp-bar"><a class="pp-back" href="#roster">← Team</a><span class="pp-title">'+esc(first.charAt(0)+". "+last)+' <em>#'+esc(n)+'</em></span><a class="pp-cta" href="#pp-contact" id="ppCta">Contact '+him+'</a></header>'+
    '<main class="pp-main">'+
@@ -670,9 +669,6 @@ function renderPlayerPage(n){
    '<section class="pp-sec"><p class="pp-k">Highlights and game film</p><h2>Watch <span class="o">'+(him==="her"?"her":"him")+'</span> play</h2>'+
    (FL.length?'<div class="pp-film">'+FL.map(function(x){return '<a class="btn" href="'+esc(x[1])+'" target="_blank" rel="noopener">'+esc(x[0])+'</a>'}).join("")+'</div>':'<div class="pp-empty">Highlight clips coming soon.</div>')+
    '<h3>Full game film</h3><div class="pp-links">'+pLink("Hudl","Team film",SITE.links.hudl)+pLink("MaxPreps","Box scores and season stats",SITE.links.maxpreps)+pLink("YouTube","Team channel",P.youtube||SITE.links.youtube)+pLink("X / Twitter",P.twitter?"@"+P.twitter:"",P.twitter?"https://x.com/"+encodeURIComponent(P.twitter):"")+pLink("Instagram",P.ig?"@"+P.ig:"",P.ig?"https://www.instagram.com/"+encodeURIComponent(P.ig):"")+(P.links||[]).filter(function(x){return safe(x[1])}).map(function(x){return pLink(x[0],"Link",x[1])}).join("")+'</div></section>'+
-   '<section class="pp-sec"><p class="pp-k">Where to watch '+him+' next</p><h2>Season <span class="o">schedule</span></h2>'+
-   '<div class="sfil pp-fil" id="ppFil"><button type="button" data-f="all" aria-pressed="true">All</button><button type="button" data-f="Home" aria-pressed="false">Home</button><button type="button" data-f="Away" aria-pressed="false">Away</button><button type="button" data-f="Neutral" aria-pressed="false">Tournaments</button></div><div id="ppGames"></div>'+
-   '<p class="pp-note">Times may change. Check the team site before you travel.</p></section>'+
    '<section class="pp-sec"><p class="pp-k">Photos</p><h2>Photo <span class="o">gallery</span></h2>'+(gal.length?'<div class="pf-gal">'+gal.map(function(s){return '<img src="'+s+'" alt="Photo of '+esc(P.name)+'" loading="lazy">'}).join("")+'</div>':'<div class="pp-empty">Photos coming soon.</div>')+'</section>'+
    '<section class="pp-sec"><p class="pp-k">Write-ups</p><h2>In the <span class="o">news</span></h2>'+(news.length?'<ul class="pf-links">'+news.map(function(x){return '<li><a href="'+esc(x[1])+'" target="_blank" rel="noopener">'+esc(x[0])+'</a></li>'}).join("")+'</ul>':'<div class="pp-empty">Write-ups coming soon. Reporters and scouts: use the contact request below to set up an interview or evaluation.</div>')+'</section>'+
    '<section class="pp-sec" id="pp-contact"><p class="pp-k">Contact</p><h2>Request <span class="o">contact</span></h2>'+
@@ -680,15 +676,6 @@ function renderPlayerPage(n){
    '<div class="pp-cards"><div><small>Player</small><b>'+esc(P.name)+'</b><span>Phone and email on request</span></div><div><small>Parent or guardian</small><b>Family of '+esc(first)+'</b><span>Phone and email on request</span></div><div><small>Head coach</small><b>Lamar Watson</b><span>Phone and email on request</span></div></div>'+
    '<form class="rq" id="rqForm" novalidate><label>Your name<input name="nm" autocomplete="name" required></label><label>School, college, or organization<input name="org"></label><label>Email<input name="em" type="email" autocomplete="email" required></label><label>Phone<input name="ph" type="tel" autocomplete="tel"></label><label>I am a<select name="who"><option>College coach or recruiter</option><option>Parent or guardian</option><option>Media</option><option>Other</option></select></label><label>Contact requested<select name="want"><option>'+esc(first)+'</option><option>Parent or guardian</option><option>Head coach</option></select></label><label>Reason for your request<textarea name="why" placeholder="Recruiting interest, interview request, partnership idea, and so on" required></textarea></label><p class="rq-msg" id="rqMsg" role="alert"></p><button class="btn" type="submit">Send request</button></form></section>'+
    '</main><footer class="pp-foot"><p>'+esc(P.name)+' #'+esc(n)+' · Baker High School Boys Basketball'+(P.cls?' · '+esc(P.cls):'')+'</p><a class="btn alt" href="#roster">Back to the team site</a></footer>';
-  function games(f){
-    el("ppGames").innerHTML=up.length?up.filter(function(g){return f==="all"||g.loc===f}).map(function(g){
-      var tag=g.loc==="Neutral"?evName(g):g.loc;
-      return '<div class="pp-g"><div class="pp-gd">'+esc(when(g))+'</div><div class="pp-go"><b>'+esc(g.opponent.replace(/\s*\(Senior Night\)/,""))+'</b><span class="pp-tag '+g.loc+'">'+esc(tag)+'</span></div><div class="pp-gt">'+esc(g.time==="TBD"?"TBD":g.time)+'</div></div>';
-    }).join("")||'<div class="pp-empty">No games in this list.</div>':'<div class="pp-empty">The season is complete. Thank you for your support.</div>';
-  }
-  var fb=el("ppFil").querySelectorAll("button");
-  fb.forEach(function(b){b.addEventListener("click",function(){fb.forEach(function(x){x.setAttribute("aria-pressed",x===b?"true":"false")});games(b.getAttribute("data-f"))})});
-  games("all");
   el("ppCta").addEventListener("click",function(e){e.preventDefault();el("pp-contact").scrollIntoView({behavior:"smooth"})});
   el("rqForm").addEventListener("submit",function(e){
     e.preventDefault();var f=e.target,v=function(k){return f.elements[k].value.trim()};
